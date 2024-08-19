@@ -56,15 +56,31 @@ function Home({ isAuth }) {
                 )}
               </div>
             </div>
-            {post.urls.map((a) => {
-              return (
-                <div>
-                  <a href={a}>
-                    <img src={a} />
-                  </a>
-                </div>
-              );
-            })}
+
+            {post.type === "image" &&
+              post.urls.map((a) => {
+                return (
+                  <div>
+                    <a href={a}>
+                      <img src={a} />
+                    </a>
+                  </div>
+                );
+              })}
+            {post.type === "video" &&
+              post.urls.map((a) => {
+                return (
+                  <div>
+                    <video
+                      controls="controls"
+                      poster="https://firebasestorage.googleapis.com/v0/b/blog-project-3100.appspot.com/o/images%2Fpost597d32a6-f3f7-491c-a797-f01ede732c74%2F178.jpgd533ee3b-d8ea-4cbb-a735-f74cd1d7c32d?alt=media&token=cf8d1cf5-8bc3-45df-b55c-983c9a2e70be&_gl=1*s0dikb*_ga*NzgyMjI1MDk3LjE2OTEwMDQyODM.*_ga_CW55HF8NVT*MTY5Njg2OTY3NS40Ni4xLjE2OTY4NzAxMzcuNTYuMC4w"
+                      mute="true"
+                    >
+                      <source src={a} type="video/mp4" />
+                    </video>
+                  </div>
+                );
+              })}
 
             {isspace(post.postText) && (
               <div className="postTextContainer">👉{post.postText}</div>

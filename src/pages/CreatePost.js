@@ -15,13 +15,26 @@ function CreatePost({ isAuth }) {
   let navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [urls, setUrls] = useState("");
+  const [type, setType] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const urlarray = [];
   const uploadImage = () => {
     if (image === null) return;
 
     const subfolder = "post" + v4();
+    let uploadNumber = 0;
     for (let i = 0; i < image.length; i++) {
+      console.log(image[i].type);
+      if (
+        image[i].type === "image/jpeg" ||
+        image[i].type === "image/png" ||
+        image[i].type === "image/jpg"
+      ) {
+        setType("image");
+      } else if (image[i].type === "video/mp4") {
+        setType("video");
+      }
       const imageRef = ref(
         storage,
         `images/${subfolder}/${image[i].name + v4()}`
@@ -30,10 +43,14 @@ function CreatePost({ isAuth }) {
       uploadBytes(imageRef, image[i]).then((snap) => {
         getDownloadURL(snap.ref).then((url) => {
           urlarray.push(url);
+          uploadNumber++;
+          if (uploadNumber === image.length) {
+            setUrls(urlarray);
+            setUploadStatus("Uploaded!!!!");
+          }
         });
       });
     }
-    setUrls(urlarray);
   };
   const createPost = async () => {
     if (urls === "" && !isspace(title) && !isspace(postText)) {
@@ -46,6 +63,7 @@ function CreatePost({ isAuth }) {
     await addDoc(postsCollectionRef, {
       title,
       postText,
+      type,
       urls: urls,
       number_of_posts: allposts.data().count,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
@@ -89,11 +107,15 @@ function CreatePost({ isAuth }) {
             onChange={(event) => {
               setImage(event.target.files);
             }}
+            
           />
           <br />{" "}
-          <button onClick={uploadImage} className="add">
-            ADD FILE
-          </button>
+          <p>
+            <button onClick={uploadImage} className="add">
+              ADD FILE
+            </button>
+            <h3 className="uploaded">{uploadStatus}</h3>
+          </p>
         </div>
 
         <button onClick={createPost}>Submit Post</button>

@@ -35,6 +35,14 @@ h3 {
   font-size: 25px;
   font-weight: 400;
 }
+.wrap {
+  width: 1200px;
+}
+video {
+  display: block;
+  width: 100%;
+  align-content: space-around;
+}
 
 nav {
   font-family: "Georgia", "Courier New", monospace;
@@ -203,6 +211,22 @@ textarea {
   align-items: flex-end;
 }
 
+.uploaded {
+  font-family: "Georgia", "serif", monospace;
+  display: flex;
+
+  align-content: flex-end;
+  border-style: groove;
+  border-radius: 5%;
+  border-width: 5px;
+  border-color: rgb(4, 247, 21);
+  color: rgb(255, 255, 255);
+  background: #209f39;
+  width: fit-content;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: bolder;
+}
 .deletePost button {
   border-style: groove;
   border-radius: 5%;
